@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="playerApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FeedMe</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="favicon.ico" rel="SHORTCUT ICON">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body ng-controller="mainController" layout="column" ng-cloak>
+
+<!-- Container 1 — Toolbar -->
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeft()">
+            <md-icon class="material-icons" aria-label="Menu">menu</md-icon>
+        </md-button>
+        <h2>
+            <span>FeedMe — The Beautiful Reader</span>
+        </h2>
+        <span flex></span>
+        <md-list>
+            <md-list-item>
+                <img class="md-avatar"
+                     ng-src="https://scontent.xx.fbcdn.net/v/t1.0-1/c85.80.337.337/s160x160/397761_518896144809580_462540943_n.jpg?oh=6dd030c585ad3a261b950946047a2a53&oe=5840F695"
+                     alt="User Photo">
+                Peter
+            </md-list-item>
+        </md-list>
+        <md-button class="md-icon-button" aria-label="filter_list" ng-click="toggleRight()">
+            <md-icon class="material-icons" aria-label="filter_list">filter_list</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<!-- Container 2 — Feed Selection — Left Sidenav -->
+<section layout="row" flex>
+    <md-sidenav flex
+                class="md-sidenav-left"
+                md-component-id='left'
+                md-is-locked-open="$mdMedia('gt-md')"
+                md-whiteframe="4">
+        <md-content layout-padding>
+
+
+            <md-input-container class="md-block">
+                <label>New Feed URL</label>
+                <md-icon class="material-icons" aria-label="rss_feed" ng-click="addFeed()">rss_feed</md-icon>
+                <input type="url" ng-model="newFeedURL" required>
+                <md-icon class="material-icons" aria-label="add" ng-click="addFeed()">add</md-icon>
+            </md-input-container>
+
+            <md-list flex>
+                <md-subheader>Feeds</md-subheader>
+                <md-list-item class="md-2-line" ng-repeat="item in feeds">
+                    <img class="md-avatar" ng-src="{{item.meta.link}}/favicon.ico" alt="{{item.meta.title}}"/>
+                    <div class="md-list-item-text">
+                        <h3>{{item.meta.title}}</h3>
+                        <p>{{item.meta.description}}</p>
+                    </div>
+                    <md-checkbox class="md-secondary" ng-model="item.selected"></md-checkbox>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+
+    <!-- Container 4 — Article Overview — Main Content -->
+    <md-content flex>
+        <md-card ng-repeat="article in getSelectedArticles()">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{article.title}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                {{article.summary}}
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button class="material-icons" aria-label="open_in_new" ng-href="{{article.link}}" target="_blank">
+                    open_in_new
+                </md-button>
+            </md-card-actions>
+        </md-card>
+
+    </md-content>
+
+</section>
+<!-- Scripts at the bottom to improve loading time -->
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+
+<script src="js/app.js"></script>
+<script src="js/controllers.js"></script>
+
+</body>
+</html>

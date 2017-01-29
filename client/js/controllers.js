@@ -8,6 +8,14 @@ var playerControllers = angular.module('playerControllers', ['ngMaterial']);
 
 playerControllers.controller('mainController', ['$scope', '$timeout', '$mdSidenav', '$mdUtil', '$log', '$http', '$mdDialog', '$mdToast', '$mdComponentRegistry', function ($scope, $timeout, $mdSidenav, $mdUtil, $log, $http, $mdDialog, $mdToast, $mdComponentRegistry) {
 
+    $scope.pusher = new PusherPlatform.App({
+        appId: '578e0d6e-c617-481e-b184-5c149abc341d',
+    });
+
+    $scope.myFeed = $scope.pusher.feed('playground');
+
+    $scope.myFeed.subscribe({ onItem: (item) => { loadFeed(item.body); } });
+
     $scope.feeds = [];
 
     $scope.toggleLeft = function () {
@@ -47,6 +55,6 @@ playerControllers.controller('mainController', ['$scope', '$timeout', '$mdSidena
     };
 
     // Load example feeds
-    loadFeed("http://rss.golem.de/rss.php?feed=ATOM1.0");
-    loadFeed("http://www.heise.de/newsticker/heise-atom.xml");
+   // loadFeed("http://rss.golem.de/rss.php?feed=ATOM1.0");
+   // loadFeed("http://www.heise.de/newsticker/heise-atom.xml");
 }]);
